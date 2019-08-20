@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-
+import django
+from distutils.version import LooseVersion
+DJANGO_2 = django.get_version() > LooseVersion('1.11')
 from django.conf import settings
 from django.forms import widgets
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
+if DJANGO_2:
+    from django.utils.html import format_html
 
 from cms.utils.i18n import get_current_language
 from cms.utils.urlutils import admin_reverse
@@ -129,6 +133,8 @@ class AllTranslationsMixin(object):
                 title=title,
             )
             langs.append(link)
+        if DJANGO_2:
+            return format_html(''.join(langs))
         return ''.join(langs)
     all_translations.short_description = 'Translations'
     all_translations.allow_tags = True
