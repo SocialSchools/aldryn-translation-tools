@@ -6,8 +6,8 @@ from distutils.version import LooseVersion
 DJANGO_2 = django.get_version() > LooseVersion('1.11')
 from django.conf import settings
 from django.forms import widgets
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.encoding import force_str
+from django.utils.translation import gettext as _
 if DJANGO_2:
     from django.utils.html import format_html
 
@@ -112,7 +112,7 @@ class AllTranslationsMixin(object):
         langs = []
         for code, lang_name in settings.LANGUAGES:
             classes = ["lang-code", ]
-            title = force_text(lang_name)
+            title = force_str(lang_name)
             if code == current:
                 classes += ["current", ]
             if code in available:
